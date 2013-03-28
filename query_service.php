@@ -333,42 +333,47 @@
 	/*****SCHEDULE TABLE*****/
 
 	//GET
-	// if(isset($_POST['roomID']))
-	// {
-	// 	$rID = $_POST['roomID'];
-	// 	$json=array();
-	// 	$sql="SELECT * FROM room_t WHERE room_id=$rID";
-	//     $result=mysql_query($sql);
+	if(isset($_POST['eventID']))
+	{
+		$eID = $_POST['eventID'];
+		$json=array();
+		$sql="SELECT * FROM schedule_t WHERE schedule_id= " . $eID;
+	    $result=mysql_query($sql);
 
-	//     while($row = mysql_fetch_assoc($result))  
-	//     {
-	// 	    $room = array(
-	// 	    	'id' => $row['room_id'],
-	// 	    	'size' => $row['room_size'],
-	// 	        'type' => $row['room_type'],
-	// 	        'number' => $row['room_number']
-	// 	    );
-	// 	    array_push($json, $room);
-	// 	}
+	    while($row = mysql_fetch_assoc($result))  
+	    {
+		    $event = array(
+		    	'id' => $row['schedule_id'],
+		        'day' => $row['day'],
+		        'start' => $row['startTime'],
+		        'end' => $row['endTime'],
+		        'crn' => $row['course_crn'],
+		        'room' => $row['room_id'],
+		        'teacher' => $row['teacher_id'],
+		        'section' => $row['section_id'],
+		        'semester' => $row['semester_id']
+		    );
+		    array_push($json, $event);
+		}
 
-	// 	sendResponse($json);
-	// }
+		sendResponse($json);
+	}
 
 	//DELETE
-	// if(isset($_POST['deleteRoom']))
-	// {
-	// 	$rID = $_POST['deleteRoom'];
-	// 	$sql="DELETE FROM room_t WHERE room_id=$rID";
-	//     $result=mysql_query($sql);
-	//     sendResponse($result);
-	// }
+	if(isset($_POST['deleteEvent']))
+	{
+		$eID = $_POST['deleteEvent'];
+		$sql="DELETE FROM schedule_t WHERE schedule_id=$eID";
+	    $result=mysql_query($sql);
+	    sendResponse($result);
+	}
 
 	//ADD & EDIT
-	if(isset($_POST['addSchedule']) || isset($_POST['editSchedule'])) 
+	if(isset($_POST['addSchedule']) || isset($_POST['editEvent'])) 
 	{
 	   	$day = trim($_POST['day']); 
-	   	$start = trim($_POST['start']).':00'; 
-	   	$end = trim($_POST['end']).':00'; 
+	   	$start = trim($_POST['start']); 
+	   	$end = trim($_POST['end']); 
 	   	$crn = trim($_POST['crn']); 
 	   	$room = trim($_POST['room']); 
 	   	$teacher = trim($_POST['teacher']); 
@@ -383,21 +388,21 @@
 			   	else
 			   		sendResponse($result);
 		}
-		// if(isset($_POST['editSchedule'])){
-		// 	if(empty($errors)){
-		// 		$rID = $_POST['editRoom'];
-		// 		$sql="UPDATE room_t SET room_size=$size, room_type='$type', room_number='$number' WHERE room_id=$rID";
-		//    		$result = mysql_query($sql);
-		//    		if (!$result) 
-	 //    			sendResponse( mysql_error());
-	 //    		else
-		//    		sendResponse($result);
-		// 	}
-		// 	else{
-	 //   			session_start();
-	 //   		 	$_SESSION['errors'] = $errors;
-	 //   		}
-		// }
+		if(isset($_POST['editEvent'])){
+			if(empty($errors)){
+				$eID = $_POST['editEvent'];
+				$sql="UPDATE schedule_t SET day='$day', startTime='$start', endTime='$end', course_crn='$crn', room_id='$room', teacher_id='$teacher', section_id='$section', semester_id='$semester' WHERE schedule_id=$eID";
+		   		$result = mysql_query($sql);
+		   		if (!$result) 
+	    			sendResponse( mysql_error());
+	    		else
+		   			sendResponse($result);
+			}
+			else{
+	   			session_start();
+	   		 	$_SESSION['errors'] = $errors;
+	   		}
+		}
 	}
 ?>
 

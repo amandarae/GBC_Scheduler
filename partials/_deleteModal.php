@@ -12,6 +12,8 @@
 		dataObj = { deleteCourse : clickedID };
 	else if($.inArray('rooms.php#', url) > -1)
 		dataObj = { deleteRoom : clickedID };
+	else if($.inArray('schedule.php?event='+clickedID+'#', url) > -1 || $.inArray('schedule.php?event='+clickedID, url) > -1)
+		dataObj = { deleteEvent : clickedID };
     bootbox.confirm("<strong>Are you sure you would like to delete this record? <br> This is a permanent action.</strong>","Cancel", "Confirm", function(e){
       if(e){ 
 	     $.ajax({
@@ -20,7 +22,10 @@
 	      data: dataObj,
 	      dataType: 'JSON',
 	      success: function(response){
-    		window.location.reload();
+	      	if($.inArray('schedule.php?event='+clickedID+'#', url) > -1 || $.inArray('schedule.php?event='+clickedID, url) > -1)
+	      		window.location.replace("admin.php");
+	      	else
+    			window.location.reload();
 	      },
 	      error: function(XMLHttpRequest, textStatus, errorThrown){ $("#response").html(errorThrown);}
 	      });
