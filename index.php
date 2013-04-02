@@ -4,6 +4,7 @@ include('partials/_dbinfo.inc.php');
 session_start();
 
 if(isset($_SESSION['admin_user'])){
+  ini_set("session.cookie_lifetime","3600"); 
   $admin_check=$_SESSION['admin_user'];
 
   $ses_sql=mysql_query("select username from user_t where username='$admin_check' ");
