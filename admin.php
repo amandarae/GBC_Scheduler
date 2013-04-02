@@ -74,7 +74,8 @@ include "partials/_header.php";
         defaultView: 'agendaWeek',
         minTime: 8,
         maxTime: 18,
-        allDaySlot: false
+        allDaySlot: false,
+        header: {center: 'prev next',right: 'month prevYear,nextYear'}
     });
   });
  $("#modalSave").on("click", function(e){
