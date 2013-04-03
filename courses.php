@@ -29,12 +29,8 @@ include('partials/_adminlock.php');
     <li><a href="rooms.php">Rooms</a></li>
   </ul>
 
-  <form class="form-search pull-left">
-    <div class="input-append">
-      <input type="text" class="span2 search-query">
-      <button type="submit" class="btn"><i class="icon-search"></i></button>
-    </div>
-  </form>
+  <?php include "partials/_search_table.php";  ?>
+
   <a href="add.php?course"><button class="pull-right btn btn-primary">Add A Course</button></a>
 
   <?php 
@@ -60,7 +56,7 @@ include('partials/_adminlock.php');
       </tr>
     </thead>
 
-    <tbody>
+    <tbody class="searchable">
     <?php
       $i=0;
       while ($i < $count) {
@@ -147,7 +143,6 @@ include('partials/_adminlock.php');
         });
       });
     });
-
   </script>
 
 </div>
