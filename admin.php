@@ -20,6 +20,9 @@ include('partials/_adminlock.php');
         width: 900px;
         margin: 0 auto;
         }
+      .schedule, .icon-print{
+        margin: 20px;
+      }
     </style>
 </head>
 <body>
@@ -38,17 +41,13 @@ include "partials/_header.php";
   <li><a href="rooms.php">Rooms</a></li>
 </ul>
 
-<form class="form-search pull-left">
-  <div class="input-append">
-    <input type="text" class="span2 search-query">
-    <button type="submit" class="btn"><i class="icon-search"></i></button>
-  </div>
-</form>
-<a href="#addToSchedule" data-toggle="modal"><button class="pull-right btn btn-primary">Schedule An Item</button></a>
+<a href=javascript:printDiv('calendar')><i class="icon-print pull-left"></i>
+<a href="#addToSchedule" data-toggle="modal"><button class="pull-right btn btn-primary schedule">Schedule An Item</button></a>
 <div style="clear:both;"></div>
 <div id="response" style="color: red;"></div>
 
 <div id="calendar"></div>
+<iframe name='print_frame' width=0 height=0 frameborder=0 src=about:blank></iframe>
 
 <div id="addToSchedule" class="modal hide">
     <div class="modal-header">
@@ -91,6 +90,13 @@ include "partials/_header.php";
     error: function(XMLHttpRequest, textStatus, errorThrown){$("#response").html("error: " + errorThrown); }
   });
 });
+
+function printDiv(divId) {
+    divCSS = new String ('<link href="css/fullcalendar.css" rel="stylesheet" type="text/css">')
+    window.frames["print_frame"].document.body.innerHTML= divCSS + document.getElementById(divId).innerHTML;
+    window.frames["print_frame"].window.focus();
+    window.frames["print_frame"].window.print();
+}
 
  </script>
 
