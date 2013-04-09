@@ -71,6 +71,7 @@ include('partials/_adminlock.php');
     <td> <?php echo $fname; ?>  </td>
     <td> <?php echo $lname; ?>  </td>
     <td> <?php echo $user; ?>  </td>
+    <td> <a href="admin.php?teacher=<?php echo $id ?>">Schedule</a></td>
     <td> <a href="#" class="details-click" data-detail-id="<?php echo $id ?>">Edit</a></td>
     <td> <a href="#" class="delete-click" data-detail-id="<?php echo $id ?>">Delete</a> </td>
     </tr>

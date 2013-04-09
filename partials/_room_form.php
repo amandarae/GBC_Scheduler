@@ -7,7 +7,10 @@
 <div class="control-group">
  <label class='control-label' for='type'>Room Type</label> 
   <div class='controls'> 
-    <input type='text' id='type' name='type' value=''>
+  	<select name='type' id='type'>
+  		<option value='Lecture'>Lecture</option>
+  		<option value='Lab'>Lab</option>
+  	</select>
   </div>
 </div>
  <div class="control-group">

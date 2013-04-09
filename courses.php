@@ -6,7 +6,7 @@ include('partials/_adminlock.php');
 <!DOCTYPE html>
 <html>
 <head>
-      <title>GBC Mini-Scheduling System - Admin</title>
+    <title>GBC Mini-Scheduling System - Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <script src="js/jquery-1.9.1.min.js"></script>
@@ -68,6 +68,7 @@ include('partials/_adminlock.php');
     <td> <?php echo $crn; ?>  </td>
     <td> <?php echo $desc; ?>  </td>
     <td> <?php echo $code; ?>  </td>
+    <td> <a href="admin.php?crn=<?php echo $crn ?>">Schedule</a></td>
     <td> <a href="#" class="details-click" data-detail-id="<?php echo $crn ?>">Edit</a></td>
     <td> <a href="#" class="delete-click" data-detail-id="<?php echo $crn ?>">Delete</a> </td>
     </tr>

@@ -67,9 +67,18 @@ include "partials/_header.php";
 
  <script>
  $(document).ready(function(){
+    var params = window.location.search.substring(1).split("=");
+    var dataObj = {};
+    dataObj[params[0]] = params[1];
      $('#calendar').fullCalendar({
         weekends: false,
-        events: "partials/_json_calendar.php",
+        eventSources: [
+        {
+            url: 'partials/_json_calendar.php',
+            type: 'POST',
+            data: dataObj,
+        }
+    ],
         defaultView: 'agendaWeek',
         minTime: 8,
         maxTime: 18,
