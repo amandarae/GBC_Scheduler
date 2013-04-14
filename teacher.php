@@ -1,12 +1,11 @@
 <?php ob_start(); ?>
 <?php
 include('partials/_dbinfo.inc.php');
-include('partials/_adminlock.php');
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	  <title>GBC Mini-Scheduling System - Admin</title>
+    <title>GBC Mini-Scheduling System - Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href='css/fullcalendar.css' rel='stylesheet' />
@@ -28,28 +27,16 @@ include('partials/_adminlock.php');
 <body>
 <div class="container">
 <?php
-include "partials/_header.php";
+  session_start();
+  include "partials/_header.php";
 ?>
 
-<ul class="nav nav-tabs">
-  <li class="active">
-    <a href="admin.php">Current Schedule</a>
-  </li>
-  <li><a href="teachers.php">Teachers</a></li>
-  <li><a href="courses.php">Courses</a></li>
-   <li><a href="sections.php">Sections</a></li>
-  <li><a href="rooms.php">Rooms</a></li>
-   <li><a href="semesters.php">Semesters</a></li>
-</ul>
-
 <a href=javascript:printDiv('calendar')><i class="icon-print pull-left"></i>
-<a href="schedule.php?add"><button class="pull-right btn btn-primary schedule">Schedule An Item</button></a>
-<div style="clear:both;"></div>
+
 <div id="response" style="color: red;"></div>
 
 <div id="calendar"></div>
 <iframe name='print_frame' width=0 height=0 frameborder=0 src=about:blank></iframe>
-
 
  <script>
  $(document).ready(function(){

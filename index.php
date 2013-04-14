@@ -46,19 +46,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 {
   $username=mysql_real_escape_string($_POST['username']); 
   $password=mysql_real_escape_string($_POST['password']); 
-  $sql="SELECT admin FROM user_t WHERE username='$username' and password='$password'";
+  $sql="SELECT * FROM user_t WHERE username='$username' and password='$password'";
   $result=mysql_query($sql);
-  $count=mysql_num_rows($result);
-
-  if($count==1)
+  if($result)
   {
-    $session = array();
-    $_SESSION['admin_user']=$username;
-    header("location: admin.php");
+   while ($row = mysql_fetch_assoc($result)) {
+      $admin = $row['admin'];
+      $id = $row['employee_id'];
+    }
+    if($admin == 1){
+      $session = array();
+      $_SESSION['admin_user']=$username;
+      header("location: admin.php");
+    }else if($admin == 0){
+      $session = array();
+      $_SESSION['teacher']=$username;
+      header("location: teacher.php?teacher=$id");
+    }
   }
   else 
   {
-    echo "Your Login Name or Password is invalid";
+    echo "Your  Username or Password is invalid";
   }
 }
 ob_end_flush();
