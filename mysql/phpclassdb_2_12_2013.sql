@@ -160,8 +160,8 @@ CREATE TABLE `semester_t` (
   `semester_id` int(32) NOT NULL AUTO_INCREMENT,
   `year` varchar(50),
   `quarter` varchar(50),
-  `startDate` date NOT NULL,
-  `endDate` date NOT NULL,
+  `startDate` varchar(50) NOT NULL,
+  `endDate` varchar(50) NOT NULL,
   PRIMARY KEY (`semester_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
