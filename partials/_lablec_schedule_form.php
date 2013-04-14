@@ -1,4 +1,10 @@
 <form id="llScheduleForm" action="query_service.php" method="post"  class="form-horizontal">
+  <?php
+    if(isset($_SESSION['post'])){
+      $post = array($_SESSION['post']);
+      unset($_SESSION['post']);
+    } 
+  ?>
 <div class="row">
   <div class="span12">
     <h3>Course</h3>
@@ -14,7 +20,15 @@
               $id=mysql_result($result,$i,"semester_id");
               $year=mysql_result($result,$i,"year");
               $quarter=mysql_result($result,$i,"quarter");
-              echo "<option value='$id'>$quarter $year</option>";
+              if (isset($post)) {
+                if($post[0]['semester'] == $id) {
+                  $sel = 'selected="selected"';
+                }
+                else {
+                  $sel = '';
+                }
+              }
+              echo "<option $sel value='$id'>$quarter $year</option>";
               $i++;
             }
           ?>
@@ -32,7 +46,15 @@
             while ($i < $count) {
               $crn=mysql_result($result,$i,"course_crn");
               $desc=mysql_result($result,$i,"course_desc");
-              echo "<option value='$crn'>$crn $desc</option>";
+              if (isset($post)) {
+                if($post[0]['crn'] == $crn) {
+                  $sel = 'selected="selected"';
+                }
+                else {
+                  $sel = '';
+                }
+              }
+              echo "<option $sel value='$crn'>$crn $desc</option>";
               $i++;
             }
           ?>
@@ -50,7 +72,15 @@
             while ($i < $count) {
               $id=mysql_result($result,$i,"section_id");
               $name=mysql_result($result,$i,"section_name");
-              echo "<option value='$id'>$name</option>";
+              if (isset($post)) {
+                if($post[0]['section'] == $id) {
+                  $sel = 'selected="selected"';
+                }
+                else {
+                  $sel = '';
+                }
+              }
+              echo "<option $sel value='$id'>$name</option>";
               $i++;
             }
           ?>
@@ -68,11 +98,22 @@
      <label class='control-label' for='day'>Day</label> 
       <div class='controls'> 
        <select name="day" id="day">
-        <option value="monday">Monday</option>
-        <option value="tuesday">Tuesday</option>
-        <option value="wednesday">Wednesday</option>
-        <option value="thursday">Thursday</option>
-        <option value="friday">Friday</option>
+        <?php
+          $days = ["monday","tuesday","wednesday","thursday", "friday"];
+          $count = count($days);
+          for($i=0;$i<$count;$i++){
+            if (isset($post)) {
+                if($post[0]['day'] == $days[$i]) {
+                  $sel = 'selected="selected"';
+                }
+                else {
+                  $sel = '';
+                }
+              }
+            $day = ucfirst($days[$i]);
+            echo "<option $sel value='$days[$i]'>$day</option>";
+          }
+        ?>
        </select>
       </div>
     </div>
@@ -81,8 +122,17 @@
       <div class='controls'> 
         <select name="start" id="start">
           <?php 
-            for($i=8;$i<=16;$i+=2)
-              echo "<option value='$i:00'>$i:00</option>";
+            for($i=8;$i<=16;$i+=2) {
+              if (isset($post)) {
+                if($post[0]['start'] == $i.':00') {
+                  $sel = 'selected="selected"';
+                }
+                else {
+                  $sel = '';
+                }
+              }
+              echo "<option $sel value='$i:00'>$i:00</option>";
+            }
           ?>
         </select>
       </div>
@@ -92,8 +142,17 @@
       <div class='controls'> 
         <select name="end" id="end">
           <?php 
-            for($i=10;$i<=18;$i+=2)
-              echo "<option value='$i:00'>$i:00</option>";
+            for($i=10;$i<=18;$i+=2) {
+              if (isset($post)) {
+                if($post[0]['end'] == $i.':00') {
+                  $sel = 'selected="selected"';
+                }
+                else {
+                  $sel = '';
+                }
+              }
+              echo "<option $sel value='$i:00'>$i:00</option>";
+            }
           ?>
         </select>
       </div>
@@ -110,7 +169,15 @@
               $id=mysql_result($result,$i,"room_id");
               $room=mysql_result($result,$i,"room_number");
               $type=mysql_result($result,$i,"room_type");
-              echo "<option value='$id'>$room ($type)</option>";
+              if (isset($post)) {
+                if($post[0]['room'] == $id) {
+                  $sel = 'selected="selected"';
+                }
+                else {
+                  $sel = '';
+                }
+              }
+              echo "<option $sel value='$id'>$room ($type)</option>";
               $i++;
             }
           ?>
@@ -129,7 +196,15 @@
               $id=mysql_result($result,$i,"employee_id");
               $first=mysql_result($result,$i,"first_name");
               $last=mysql_result($result,$i,"last_name");
-              echo "<option value='$id'>$first $last</option>";
+              if (isset($post)) {
+                if($post[0]['teacher'] == $id) {
+                  $sel = 'selected="selected"';
+                }
+                else {
+                  $sel = '';
+                }
+              }
+              echo "<option $sel value='$id'>$first $last</option>";
               $i++;
             }
           ?>
@@ -145,39 +220,69 @@
     <div class="control-group">
      <label class='control-label' for='aday'>Day</label> 
       <div class='controls'> 
-       <select name="aday" id="day">
-        <option value="monday">Monday</option>
-        <option value="tuesday">Tuesday</option>
-        <option value="wednesday">Wednesday</option>
-        <option value="thursday">Thursday</option>
-        <option value="friday">Friday</option>
+       <select name="aday" id="aday">
+        <?php
+          $days = ["monday","tuesday","wednesday","thursday", "friday"];
+          $count = count($days);
+          for($i=0;$i<$count;$i++){
+            if (isset($post)) {
+                if($post[0]['aday'] == $days[$i]) {
+                  $sel = 'selected="selected"';
+                }
+                else {
+                  $sel = '';
+                }
+              }
+            $day = ucfirst($days[$i]);
+            echo "<option $sel value='$days[$i]'>$day</option>";
+          }
+        ?>
        </select>
       </div>
     </div>
      <div class="control-group">
-     <label class='control-label' for='start'>Start Time</label> 
+     <label class='control-label' for='astart'>Start Time</label> 
       <div class='controls'> 
         <select name="astart" id="astart">
           <?php 
-            for($i=8;$i<=16;$i+=2)
-              echo "<option value='$i:00'>$i:00</option>";
+            for($i=8;$i<=16;$i+=2) {
+              if (isset($post)) {
+                if($post[0]['astart'] == $i.':00') {
+                  $sel = 'selected="selected"';
+                }
+                else {
+                  $sel = '';
+                }
+              }
+              echo "<option $sel value='$i:00'>$i:00</option>";
+            }
           ?>
         </select>
       </div>
     </div>
      <div class="control-group">
-     <label class='control-label' for='end'>End Time</label> 
+     <label class='control-label' for='aend'>End Time</label> 
       <div class='controls'> 
         <select name="aend" id="aend">
           <?php 
-            for($i=10;$i<=18;$i+=2)
-              echo "<option value='$i:00'>$i:00</option>";
+            for($i=10;$i<=18;$i+=2) {
+              if (isset($post)) {
+                if($post[0]['aend'] == $i.':00') {
+
+                  $sel = 'selected="selected"';
+                }
+                else {
+                  $sel = '';
+                }
+              }
+              echo "<option $sel value='$i:00'>$i:00</option>";
+            }
           ?>
         </select>
       </div>
     </div>
     <div class="control-group">
-     <label class='control-label' for='room'>Room</label> 
+     <label class='control-label' for='aroom'>Room</label> 
       <div class='controls'> 
         <select name="aroom" id="aroom">
           <?php 
@@ -188,7 +293,15 @@
               $id=mysql_result($result,$i,"room_id");
               $room=mysql_result($result,$i,"room_number");
               $type=mysql_result($result,$i,"room_type");
-              echo "<option value='$id'>$room ($type)</option>";
+              if (isset($post)) {
+                if($post[0]['aroom'] == $id) {
+                  $sel = 'selected="selected"';
+                }
+                else {
+                  $sel = '';
+                }
+              }
+              echo "<option $sel value='$id'>$room ($type)</option>";
               $i++;
             }
           ?>
@@ -196,7 +309,7 @@
       </div>
     </div>
     <div class="control-group">
-     <label class='control-label' for='teacher'>Teacher</label> 
+     <label class='control-label' for='ateacher'>Teacher</label> 
       <div class='controls'> 
         <select name="ateacher" id="ateacher">
           <?php 
@@ -207,7 +320,15 @@
               $id=mysql_result($result,$i,"employee_id");
               $first=mysql_result($result,$i,"first_name");
               $last=mysql_result($result,$i,"last_name");
-              echo "<option value='$id'>$first $last</option>";
+              if (isset($post)) {
+                if($post[0]['ateacher'] == $id) {
+                  $sel = 'selected="selected"';
+                }
+                else {
+                  $sel = '';
+                }
+              }
+              echo "<option $sel value='$id'>$first $last</option>";
               $i++;
             }
           ?>

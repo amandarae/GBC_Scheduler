@@ -52,6 +52,7 @@ include('partials/_adminlock.php');
         }
       }
      ?>
+     <div id="response" style="color: red;"></div>
   <div class="form-center">
     <h3 id="detailsID"></h3>
 
@@ -63,7 +64,7 @@ include('partials/_adminlock.php');
           <a href="admin.php" class="btn cl ">Back</a>
           <input type="hidden" name="eID" id="eID" value=""/>
           <input type='submit' class="delete-click btn btn-danger" id="eventDelete" name="eventDelete" value="Delete"/>
-          <input type='submit' class="btn btn-primary" id="eventSave" value="Save changes"/>
+          <input type='submit' class="btn btn-primary" id="saveEvent" value="Save changes"/>
         </form>
 
         <?php include('partials/_deleteModal.php') ?>
@@ -81,17 +82,39 @@ FORMEND;
     echo $frmbttm;
     }
   ?>
-    <div id="response" style="color: red;"></div>
+    
   </div>
 </div>
 <script>
  $(document).ready(function(){
-    if(getParameterByName('add')){
-      $('#llScheduleForm').submit(function(){
-        return true;
-      });
-    }
-    else if(getParameterByName('event')){
+    var errors=""; 
+    $('#llScheduleForm').submit(function(){
+      errors=""; 
+      var s = $('#start').val().split(":");
+      var e = $('#end').val().split(":");
+      var as = $('#astart').val().split(":");
+      var ae = $('#aend').val().split(":");
+      if(s[0] >  e[0] || e[0] - s[0] || as[0] >  ae[0] || ae[0] - as[0] > 2)
+        errors += "A lab and or lecture must be blocked in successive 2 hr blocks<br>";
+      if(errors != ""){
+        $('#response').html(errors);
+        return false;
+      }
+      return true;
+    });
+    $('#scheduleForm').submit(function(){
+      errors=""; 
+      var s = $('#start').val().split(":");
+      var e = $('#end').val().split(":");
+      if(s[0] >  e[0] || e[0] - s[0] > 2)
+        errors += "A lab and or lecture must be blocked in successive 2 hr blocks<br>";
+      if(errors != ""){
+        $('#response').html(errors);
+        return false;
+      }
+      return true;
+    });
+    if(getParameterByName('event')){
       $(".delete-click").data("detail-id", getParameterByName('event'));
        var dataObj = { eventID : getParameterByName('event') };
         $.ajax({
@@ -111,19 +134,6 @@ FORMEND;
             $('#section').val(response[0]['section']);
             $('#semester').val(response[0]['semester']);
           }
-        });
-        $("#eventSave").on("click", function(e){
-            var dataObj = { editEvent : getParameterByName('event'), semester : $("#semester").val(), day : $("#day").val(), start : $("#start").val(), end : $("#end").val(), crn : $("#crn").val(), teacher : $("#teacher").val(), room : $("#room").val(), section : $("#section").val() };
-          $.ajax({
-            type: 'POST',
-            url: 'query_service.php',
-            data: dataObj,
-            dataType: 'JSON',
-            success: function(response){
-              window.location.replace("admin.php");
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown){$("#response").html("error: " + errorThrown);}
-          });
         });
     }
   });

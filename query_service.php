@@ -458,7 +458,7 @@
 	}
 
 	//ADD & EDIT
-	if(isset($_POST['addEvent']) || isset($_POST['editEvent'])) 
+	if(isset($_POST['addEvent']) || isset($_POST['eID'])) 
 	{
 		$errors = array();
 	   	$day = trim($_POST['day']); 
@@ -469,194 +469,182 @@
 	   	$teacher = trim($_POST['teacher']); 
 	   	$section = trim($_POST['section']); 
 	   	$semester = trim($_POST['semester']); 
-	   	$aday = trim($_POST['aday']); 
-	   	$astart = trim($_POST['astart']); 
-	   	$aend = trim($_POST['aend']); 
-	   	$aroom = trim($_POST['aroom']); 
-	   	$ateacher = trim($_POST['ateacher']); 
+
 	   	if(isset($_POST['addEvent'])){
-	   		//1 section can have up to 6 courses per semester
+			$aday = trim($_POST['aday']); 
+			$astart = trim($_POST['astart']); 
+			$aend = trim($_POST['aend']); 
+			$aroom = trim($_POST['aroom']); 
+			$ateacher = trim($_POST['ateacher']); 
+			//1 section can have up to 6 courses per semester
 			$sql = "SELECT schedule_id FROM schedule_t WHERE semester_id=$semester AND section_id=$section";
-	   		$result = mysql_query($sql);
-	   		$count=mysql_num_rows($result);
-	   		if($count > 6){
-	   			array_push($errors, "There are already 6 courses per semester in this section");
-	   			session_start();
-	   		 	$_SESSION['errors'] = $errors;
-	   		 	header("location: schedule.php?add");
-	   		}
-		   	if(isset($_POST['isLecture'])){
-		   		//1 teacher <= 4 courses
+			$result = mysql_query($sql);
+			$count=mysql_num_rows($result);
+			if($count > 6){
+				array_push($errors, "There are already 6 courses per semester in this section");
+			}
+			//LECTURE
+			if(isset($_POST['isLecture'])){
+				//1 teacher <= 4 courses
 				$sql = "SELECT schedule_id FROM schedule_t WHERE teacher_id=$teacher AND semester_id=$semester";
-		   		$result = mysql_query($sql);
-		   		$count=mysql_num_rows($result);
-		   		if($count > 4){
-		   			array_push($errors, "The lecture teacher is already assigned the maximum of 4 classes this semester");
-		   			session_start();
-		   		 	$_SESSION['errors'] = $errors;
-		   		 	header("location: schedule.php?add");
-		   		 	exit;
-		   		}
-		   		//schedule conflicts 
-		   		//day & time & room conflict 
-		   		$sql = "SELECT schedule_id FROM schedule_t WHERE day=$day AND startTime=$start AND room_id=$room AND semester_id=$semester";
-		   		$result = mysql_query($sql);
-		   		if($result){
-		   			array_push($errors, "[Lecture] There is already a class scheduled in this room at this time this semester");
-		   			session_start();
-		   		 	$_SESSION['errors'] = $errors;
-		   		 	header("location: schedule.php?add");
-		   		 	exit;
-		   		}
-		   		//day & time & teacher conflict 
-		   		$sql = "SELECT schedule_id FROM schedule_t WHERE day=$day AND startTime=$start AND teacher_id=$teacher AND semester_id=$semester";
-		   		$result = mysql_query($sql);
-		   		if($result){
-		   			array_push($errors, "[Lecture] This teacher is already scheduled at this time this semester");
-		   			session_start();
-		   		 	$_SESSION['errors'] = $errors;
-		   		 	header("location: schedule.php?add");
-		   		 	exit;
-		   		}
-		   		//crn & type conflict 
-		   		$sql = "SELECT room_type FROM room_t INNER JOIN schedule_t ON room_t.room_id = schedule_t.room_id WHERE course_crn = $crn AND room_type='Lecture' AND semester_id=$semester";
-		   		$result = mysql_query($sql);
-		   		if($result){
-		   			array_push($errors, "This course already has a lecture scheduled this semester");
-		   			session_start();
-		   		 	$_SESSION['errors'] = $errors;
-		   		 	header("location: schedule.php?add");
-		   		 	exit;
-		   		}
-	   			$sql = "INSERT INTO schedule_t (day, startTime, endTime, course_crn, room_id, teacher_id, section_id, semester_id) VALUES ('$day', '$start', '$end', $crn, $room, $teacher, $section, $semester)";
-	   			$result = mysql_query($sql);
-	   		}else
-	   			$result = true;
-			if (!$result) 
-    			sendResponse( mysql_error());
-		   	else{
-		   		if(isset($_POST['isLab'])){
-		   			//1 teacher <= 4 courses
-					$sql = "SELECT schedule_id FROM schedule_t WHERE teacher_id=$ateacher AND semester_id=$semester";
-			   		$result = mysql_query($sql);
-			   		$count=mysql_num_rows($result);
-			   		if($count > 4){
-			   			array_push($errors, "The lab teacher is already assigned the maximum of 4 classes this semester");
-			   			session_start();
-			   		 	$_SESSION['errors'] = $errors;
-			   		 	header("location: schedule.php?add");
-			   		 	exit;
-			   		}
-			   		//schedule conflicts 
-			   		//day & time & room conflict 
-			   		$sql = "SELECT schedule_id FROM schedule_t WHERE day=$aday AND startTime=$astart AND room_id=$aroom AND semester_id=$semester";
-			   		$result = mysql_query($sql);
-			   		if($result){
-			   			array_push($errors, "[Lab] There is already a class scheduled in this room at this time this semester");
-			   			session_start();
-			   		 	$_SESSION['errors'] = $errors;
-			   		 	header("location: schedule.php?add");
-			   		 	exit;
-			   		}
-			   		//day & time & teacher conflict 
-			   		$sql = "SELECT schedule_id FROM schedule_t WHERE day=$aday AND startTime=$astart AND teacher_id=$ateacher AND semester_id=$semester";
-			   		$result = mysql_query($sql);
-			   		if($result){
-			   			array_push($errors, "[Lab] This teacher is already scheduled at this time this semester");
-			   			session_start();
-			   		 	$_SESSION['errors'] = $errors;
-			   		 	header("location: schedule.php?add");
-			   		 	exit;
-			   		}
-			   		//crn & type conflict 
-			   		$sql = "SELECT room_type FROM room_t INNER JOIN schedule_t ON room_t.room_id = schedule_t.room_id WHERE course_crn = $crn AND room_type='Lab' AND semester_id=$semester";
-			   		$result = mysql_query($sql);
-			   		if($result){
-			   			array_push($errors, "This course already has a lab scheduled this semester");
-			   			session_start();
-			   		 	$_SESSION['errors'] = $errors;
-			   		 	header("location: schedule.php?add");
-			   		 	exit;
-			   		}
-			   		$sql = "INSERT INTO schedule_t (day, startTime, endTime, course_crn, room_id, teacher_id, section_id, semester_id) VALUES ('$aday', '$astart', '$aend', $crn, $aroom, $ateacher, $section, $semester)";
+				$result = mysql_query($sql);
+				$count=mysql_num_rows($result);
+				if($count > 4){
+					array_push($errors, "The lecture teacher is already assigned the maximum of 4 classes this semester");
+				}
+				//schedule conflicts 
+				//day & time & room conflict 
+				$sql = "SELECT schedule_id FROM schedule_t WHERE day=$day AND startTime=$start AND room_id=$room AND semester_id=$semester";
+				$result = mysql_query($sql);
+				if($result){
+					array_push($errors, "[Lecture] There is already a class scheduled in this room at this time this semester");
+				}
+				//day & time & teacher conflict 
+				$sql = "SELECT schedule_id FROM schedule_t WHERE day=$day AND startTime=$start AND teacher_id=$teacher AND semester_id=$semester";
+				$result = mysql_query($sql);
+				if($result){
+					array_push($errors, "[Lecture] This teacher is already scheduled at this time this semester");
+				}
+				//crn & type conflict 
+				$sql = "SELECT room_type FROM room_t INNER JOIN schedule_t ON room_t.room_id = schedule_t.room_id WHERE course_crn = $crn AND room_type='Lecture' AND semester_id=$semester";
+				$result = mysql_query($sql);
+				if($result){
+					array_push($errors, "This course already has a lecture scheduled this semester");
+				}
+				if(!$errors) {
+					$sql = "INSERT INTO schedule_t (day, startTime, endTime, course_crn, room_id, teacher_id, section_id, semester_id) VALUES ('$day', '$start', '$end', $crn, $room, $teacher, $section, $semester)";
 					$result = mysql_query($sql);
-				}else
-					$result = true;
-				if (!$result) 
-					die('Invalid query: ' . mysql_error());
-			   	header("location: admin.php");
-		   	}
-		}
-		if(isset($_POST['editEvent'])){
-			if(empty($errors)){
-				$eID = $_POST['editEvent'];
-				//1 section can have up to 6 courses per semester
-				$sql = "SELECT schedule_id FROM schedule_t WHERE semester_id=$semester AND section_id=$section";
-		   		$result = mysql_query($sql);
-		   		$count=mysql_num_rows($result);
-		   		if($count > 6){
-		   			array_push($errors, "There are already 6 courses per semester in this section");
-		   			session_start();
-		   		 	$_SESSION['errors'] = $errors;
-		   		 	header("location: schedule.php?event=$eID");
-		   		}
-			   	if(isset($_POST['isLecture'])){
-			   		//1 teacher <= 4 courses
-					$sql = "SELECT schedule_id FROM schedule_t WHERE teacher_id=$teacher AND semester_id=$semester";
-			   		$result = mysql_query($sql);
-			   		$count=mysql_num_rows($result);
-			   		if($count > 4){
-			   			array_push($errors, "The teacher is already assigned the maximum of 4 classes this semester");
-			   			session_start();
-			   		 	$_SESSION['errors'] = $errors;
-			   		 	header("location: schedule.php?event=$eID");
-			   		 	exit;
-			   		}
-			   		//schedule conflicts 
-			   		//day & time & room conflict 
-			   		$sql = "SELECT schedule_id FROM schedule_t WHERE day=$day AND startTime=$start AND room_id=$room AND semester_id=$semester";
-			   		$result = mysql_query($sql);
-			   		if($result){
-			   			array_push($errors, "There is already a class scheduled in this room at this time this semester");
-			   			session_start();
-			   		 	$_SESSION['errors'] = $errors;
-			   		 	header("location: schedule.php?event=$eID");
-			   		 	exit;
-				   		}
-			   		//day & time & teacher conflict 
-			   		$sql = "SELECT schedule_id FROM schedule_t WHERE day=$day AND startTime=$start AND teacher_id=$teacher AND semester_id=$semester";
-			   		$result = mysql_query($sql);
-			   		if($result){
-			   			array_push($errors, "This teacher is already scheduled at this time this semester");
-			   			session_start();
-			   		 	$_SESSION['errors'] = $errors;
-			   		 	header("location: schedule.php?event=$eID");
-			   		 	exit;
-			   		}
-			   		//crn & type conflict 
-			   		$sql = "SELECT room_type FROM room_t WHERE room_id=$room";
-			   		$result = mysql_query($sql);
- 					$type=mysql_result($result,0,"room_type");
-			   		$sql = "SELECT room_type FROM room_t INNER JOIN schedule_t ON room_t.room_id = schedule_t.room_id WHERE course_crn = $crn AND room_type=$type AND semester_id=$semester";
-			   		$result = mysql_query($sql);
-			   		if($result){
-			   			array_push($errors, "This course already has a $type scheduled this semester");
-			   			session_start();
-			   		 	$_SESSION['errors'] = $errors;
-			   		 	header("location: schedule.php?event=$eID");
-			   		 	exit;
-			   		}
-				$sql="UPDATE schedule_t SET day='$day', startTime='$start', endTime='$end', course_crn='$crn', room_id='$room', teacher_id='$teacher', section_id='$section', semester_id='$semester' WHERE schedule_id=$eID";
-		   		$result = mysql_query($sql);
-		   		sendResponse($result);
+				}
 			}
 			else{
-	   			session_start();
-	   		 	$_SESSION['errors'] = $errors;
-	   		 	header("location: schedule.php?event=$eID");
-	   		}
-	   	}
+				$result = true;
+			}
+
+			if (!$result) 
+				sendResponse( mysql_error());
+
+			//LAB
+			if(isset($_POST['isLab'])){
+				//1 teacher <= 4 courses
+				$sql = "SELECT schedule_id FROM schedule_t WHERE teacher_id=$ateacher AND semester_id=$semester";
+				$result = mysql_query($sql);
+				$count=mysql_num_rows($result);
+				if(count > 4){
+					array_push($errors, "The lab teacher is already assigned the maximum of 4 classes this semester");
+				}
+				//schedule conflicts 
+				//day & time & room conflict 
+				$sql = "SELECT schedule_id FROM schedule_t WHERE day=$aday AND startTime=$astart AND room_id=$aroom AND semester_id=$semester";
+				$result = mysql_query($sql);
+				if($result){
+					array_push($errors, "[Lab] There is already a class scheduled in this room at this time this semester");
+				}
+				//day & time & teacher conflict 
+				$sql = "SELECT schedule_id FROM schedule_t WHERE day=$aday AND startTime=$astart AND teacher_id=$ateacher AND semester_id=$semester";
+				$result = mysql_query($sql);
+				if($result){
+					array_push($errors, "[Lab] This teacher is already scheduled at this time this semester");
+				}
+				//crn & type conflict 
+				$sql = "SELECT room_type FROM room_t INNER JOIN schedule_t ON room_t.room_id = schedule_t.room_id WHERE course_crn = $crn AND room_type='Lab' AND semester_id=$semester";
+				$result = mysql_query($sql);
+				if($result){
+					array_push($errors, "This course already has a lab scheduled this semester");
+				}
+				if(!$errors) {
+					$sql = "INSERT INTO schedule_t (day, startTime, endTime, course_crn, room_id, teacher_id, section_id, semester_id) VALUES ('$aday', '$astart', '$aend', $crn, $aroom, $ateacher, $section, $semester)";
+					$result = mysql_query($sql);
+				}
+			}
+			else
+				$result = true;
+			if($errors) {
+				session_start();
+				$_SESSION['errors'] = $errors;
+				$_SESSION['post'] = $_POST;
+				header("location: schedule.php?add");
+				exit;
+			}
+			if (!$result) 
+				die('Invalid query: ' . mysql_error());
+			else
+				header("location: admin.php");
+		}
+
+		if(isset($_POST['eID'])){
+			if(empty($errors)){
+				$eID = $_POST['eID'];
+				//1 section can have up to 6 courses per semester
+				$sql = "SELECT schedule_id FROM schedule_t WHERE semester_id=$semester AND section_id=$section";
+				$result = mysql_query($sql);
+				$count=mysql_num_rows($result);
+				if($count > 6){
+					array_push($errors, "There are already 6 courses per semester in this section");
+					session_start();
+					$_SESSION['errors'] = $errors;
+					header("location: schedule.php?event=$eID");
+					exit;
+				}
+				//1 teacher <= 4 courses
+				$sql = "SELECT schedule_id FROM schedule_t WHERE teacher_id=$teacher AND semester_id=$semester";
+				$result = mysql_query($sql);
+				$count=mysql_num_rows($result);
+				if($count > 4){
+					array_push($errors, "The teacher is already assigned the maximum of 4 classes this semester");
+					session_start();
+				 	$_SESSION['errors'] = $errors;
+				 	header("location: schedule.php?event=$eID");
+				 	exit;
+				}
+				//schedule conflicts 
+				//day & time & room conflict 
+				$sql = "SELECT schedule_id FROM schedule_t WHERE day=$day AND startTime=$start AND room_id=$room AND semester_id=$semester";
+				$result = mysql_query($sql);
+				if($result){
+					array_push($errors, "There is already a class scheduled in this room at this time this semester");
+					session_start();
+				 	$_SESSION['errors'] = $errors;
+				 	header("location: schedule.php?event=$eID");
+				 	exit;
+				}
+				//day & time & teacher conflict 
+				$sql = "SELECT schedule_id FROM schedule_t WHERE day=$day AND startTime=$start AND teacher_id=$teacher AND semester_id=$semester";
+				$result = mysql_query($sql);
+				if($result){
+					array_push($errors, "This teacher is already scheduled at this time this semester");
+					session_start();
+				 	$_SESSION['errors'] = $errors;
+				 	header("location: schedule.php?event=$eID");
+				 	exit;
+				}
+				//crn & type conflict 
+				$sql = "SELECT room_type FROM room_t WHERE room_id=$room";
+				$result = mysql_query($sql);
+				$type=mysql_result($result,0,"room_type");
+				$sql = "SELECT room_type FROM room_t INNER JOIN schedule_t ON room_t.room_id = schedule_t.room_id WHERE course_crn = $crn AND room_type=$type AND semester_id=$semester";
+				$result = mysql_query($sql);
+				if($result){
+					array_push($errors, "This course already has a $type scheduled this semester");
+					session_start();
+				 	$_SESSION['errors'] = $errors;
+				 	header("location: schedule.php?event=$eID");
+				 	exit;
+				}
+				$sql="UPDATE schedule_t SET day='$day', startTime='$start', endTime='$end', course_crn='$crn', room_id='$room', teacher_id='$teacher', section_id='$section', semester_id='$semester' WHERE schedule_id=$eID";
+				$result = mysql_query($sql);
+				if($result)
+					header("location: admin.php");
+				else{
+					session_start();
+					$_SESSION['errors'] = $errors;
+					header("location: schedule.php?event=$eID");
+				}
+			}			
+			else{
+				session_start();
+				$_SESSION['errors'] = $errors;
+				header("location: schedule.php?event=$eID");
+			}
+		}
 	}
 ?>
-
-
