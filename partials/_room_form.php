@@ -1,3 +1,4 @@
+<form id="roomForm" method="post" action="query_service.php" class="form-horizontal">
 <div class="control-group">
  <label class='control-label' for='size'>Room Size</label> 
   <div class='controls'> 

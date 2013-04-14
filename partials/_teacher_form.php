@@ -1,3 +1,4 @@
+<form id="teacherForm" method="post" action="query_service.php" class="form-horizontal">
 <div class="control-group">
  <label class='control-label' for='fName'>First Name</label> 
   <div class='controls'> 

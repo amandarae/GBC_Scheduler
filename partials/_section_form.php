@@ -1,3 +1,4 @@
+<form id="sectionForm" method="post" action="query_service.php" class="form-horizontal">
 <div class="control-group">
  <label class='control-label' for='name'>Section Name</label> 
   <div class='controls'> 

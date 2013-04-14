@@ -1,3 +1,4 @@
+<form id="courseForm" action="query_service.php" method="post"  class="form-horizontal">
 <div class="control-group">
  <label class='control-label' for='crn'>Course CRN</label> 
   <div class='controls'> 
