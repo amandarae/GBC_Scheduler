@@ -55,7 +55,7 @@ include('partials/_adminlock.php');
      <div id="response" style="color: red;"></div>
   <div class="form-center">
     <?php 
-      if(isset($_SERVER['QUERY_STRING']=='event')){
+      if($_SERVER['QUERY_STRING'] == 'event'){
         include('partials/_schedule_form.php'); 
 
         $frmbttm = '
@@ -69,7 +69,7 @@ include('partials/_adminlock.php');
         </div>';
     echo $frmbttm;
     }
-    if(isset($_SERVER['QUERY_STRING']=='add')){
+    if($_SERVER['QUERY_STRING']=='add'){
       include('partials/_lablec_schedule_form.php'); 
       $frmbttm = '
          <a href="admin.php" class="btn cl ">Back</a>
