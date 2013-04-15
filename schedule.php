@@ -69,7 +69,7 @@ include('partials/_adminlock.php');
         </div>';
     echo $frmbttm;
     }
-    else if(isset($_GET['add'])){
+    if(isset($_GET['add'])){
       include('partials/_lablec_schedule_form.php'); 
       $frmbttm = '
          <a href="admin.php" class="btn cl ">Back</a>
