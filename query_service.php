@@ -499,19 +499,19 @@
 				//day & time & room conflict 
 				$sql = "SELECT schedule_id FROM schedule_t WHERE day=$day AND startTime=$start AND room_id=$room AND semester_id=$semester";
 				$result = mysql_query($sql);
-				if(mysql_num_rows($result)>=1)){
+				if(mysql_num_rows($result)>=1){
 					array_push($errors, "[Lecture] There is already a class scheduled in this room at this time this semester");
 				}
 				//day & time & teacher conflict 
 				$sql = "SELECT schedule_id FROM schedule_t WHERE day=$day AND startTime=$start AND teacher_id=$teacher AND semester_id=$semester";
 				$result = mysql_query($sql);
-				if(mysql_num_rows($result)>=1)){
+				if(mysql_num_rows($result)>=1){
 					array_push($errors, "[Lecture] This teacher is already scheduled at this time this semester");
 				}
 				//crn & type conflict 
 				$sql = "SELECT room_type FROM room_t INNER JOIN schedule_t ON room_t.room_id = schedule_t.room_id WHERE course_crn = $crn AND room_type='Lecture' AND semester_id=$semester";
 				$result = mysql_query($sql);
-				if(mysql_num_rows($result)>=1)){
+				if(mysql_num_rows($result)>=1){
 					array_push($errors, "This course already has a lecture scheduled this semester");
 				}
 				if(!$errors) {
@@ -539,19 +539,19 @@
 				//day & time & room conflict 
 				$sql = "SELECT schedule_id FROM schedule_t WHERE day=$aday AND startTime=$astart AND room_id=$aroom AND semester_id=$semester";
 				$result = mysql_query($sql);
-				if(mysql_num_rows($result)>=1)){
+				if(mysql_num_rows($result)>=1){
 					array_push($errors, "[Lab] There is already a class scheduled in this room at this time this semester");
 				}
 				//day & time & teacher conflict 
 				$sql = "SELECT schedule_id FROM schedule_t WHERE day=$aday AND startTime=$astart AND teacher_id=$ateacher AND semester_id=$semester";
 				$result = mysql_query($sql);
-				if(mysql_num_rows($result)>=1)){
+				if(mysql_num_rows($result)>=1){
 					array_push($errors, "[Lab] This teacher is already scheduled at this time this semester");
 				}
 				//crn & type conflict 
 				$sql = "SELECT room_type FROM room_t INNER JOIN schedule_t ON room_t.room_id = schedule_t.room_id WHERE course_crn = $crn AND room_type='Lab' AND semester_id=$semester";
 				$result = mysql_query($sql);
-				if(mysql_num_rows($result)>=1)){
+				if(mysql_num_rows($result)>=1){
 					array_push($errors, "This course already has a lab scheduled this semester");
 				}
 				if(!$errors) {
@@ -603,7 +603,7 @@
 				//day & time & room conflict 
 				$sql = "SELECT schedule_id FROM schedule_t WHERE day=$day AND startTime=$start AND room_id=$room AND semester_id=$semester";
 				$result = mysql_query($sql);
-				if(mysql_num_rows($result)>=1)){
+				if(mysql_num_rows($result)>=1){
 					array_push($errors, "There is already a class scheduled in this room at this time this semester");
 					session_start();
 				 	$_SESSION['errors'] = $errors;
@@ -613,7 +613,7 @@
 				//day & time & teacher conflict 
 				$sql = "SELECT schedule_id FROM schedule_t WHERE day=$day AND startTime=$start AND teacher_id=$teacher AND semester_id=$semester";
 				$result = mysql_query($sql);
-				if(mysql_num_rows($result)>=1)){
+				if(mysql_num_rows($result)>=1){
 					array_push($errors, "This teacher is already scheduled at this time this semester");
 					session_start();
 				 	$_SESSION['errors'] = $errors;
@@ -626,7 +626,7 @@
 				$type=mysql_result($result,0,"room_type");
 				$sql = "SELECT room_type FROM room_t INNER JOIN schedule_t ON room_t.room_id = schedule_t.room_id WHERE course_crn = $crn AND room_type=$type AND semester_id=$semester";
 				$result = mysql_query($sql);
-				if(mysql_num_rows($result)>=1)){
+				if(mysql_num_rows($result)>=1){
 					array_push($errors, "This course already has a $type scheduled this semester");
 					session_start();
 				 	$_SESSION['errors'] = $errors;
