@@ -6,11 +6,11 @@
     // $dbusername = 'root';
     // $dbpassword = '';
     // $dbhost = 'localhost';
-    $dbdatabase = 'phpclassdb';
-    $dbusername = 'amandara_php';
-    $dbpassword = 'pass@word1';
-    $dbhost = 'localhost';
-    $dbdatabase = 'amandara_gbcmini';
+    // $dbdatabase = 'phpclassdb';
+    $dbusername = 'bccbdbc2ae2daf';
+    $dbpassword = 'afda806c';
+    $dbhost = 'us-cdbr-azure-east-b.cloudapp.net';
+    $dbdatabase = 'gbcminiAdIryX5DE';
     $bd = mysql_connect($dbhost, $dbusername, $dbpassword) 
 or die("Opps some thing went wrong");
 mysql_select_db($dbdatabase, $bd) or die("Oops some thing went wrong");
