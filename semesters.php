@@ -100,7 +100,6 @@ include('partials/_adminlock.php');
     </div>
     <div class="modal-body">
         <?php include('partials/_semester_form.php') ?>
-        <input id="start" size="10" class="hasDatepick">
       </form>
     </div>
     <div class="modal-footer">
