@@ -54,8 +54,6 @@ include('partials/_adminlock.php');
      ?>
      <div id="response" style="color: red;"></div>
   <div class="form-center">
-    <h3 id="detailsID"></h3>
-
     <?php 
       if(isset($_GET['event'])){
         include('partials/_schedule_form.php'); 
@@ -72,7 +70,7 @@ include('partials/_adminlock.php');
 FORMEND;
     echo $frmbttm;
     }
-    else{
+    else if(isset($_GET['add'])){
       include('partials/_lablec_schedule_form.php'); 
       $frmbttm = <<<FORMEND
          <a href="admin.php" class="btn cl ">Back</a>
