@@ -49,6 +49,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
   $sql="SELECT * FROM user_t WHERE username='$username' and password='$password'";
   $result=mysql_query($sql);
   if(mysql_num_rows($result)==1){
+    while ($row = mysql_fetch_assoc($result)) {
+      $admin = $row['admin'];
       if($admin == 1){
         $session = array();
         $_SESSION['admin_user']=$username;
@@ -60,11 +62,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         header("location: teacher.php?teacher=$id");
       }
     }
+  }
      else 
     {
       echo "Your Username or Password is invalid";
     }
-  }
 }
 ob_end_flush();
 ?>
