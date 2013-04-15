@@ -145,7 +145,7 @@ include('partials/_adminlock.php');
         });
       });
     });
-  $(document).ready(fucntion(){
+  $(document).ready(function(){
     $("#courseForm").submit(function(){
      var errors=""; 
       if($('#crn').val().length != 5 || isNaN($('#crn').val()))
