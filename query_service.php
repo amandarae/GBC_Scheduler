@@ -224,7 +224,10 @@
 	   			//crn = 5 digit unique
 				$sql = "SELECT course_crn FROM course_t WHERE course_crn=$crn";
 		   		$result = mysql_query($sql);
-		   		if($result){
+		   	 	while ($row = mysql_fetch_assoc($result)) {
+		   	 		$prevID = $row['course_crn'];
+		   	 	}
+		   		if(@$prevID){
 		   			array_push($errors, "This course crn is already in use, please choose another one");
 		   			session_start();
 		   		 	$_SESSION['errors'] = $errors;
