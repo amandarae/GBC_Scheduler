@@ -48,14 +48,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
   $password=mysql_real_escape_string($_POST['password']); 
   $sql="SELECT * FROM user_t WHERE username='$username' and password='$password'";
   $result=mysql_query($sql);
-  $count = mysql_num_rows($result);
-  if($result && $count = 6)
-  {
-   while ($row = mysql_fetch_assoc($result)) {
-      $admin = $row['admin'];
-      $id = $row['employee_id'];
-    }
-    if(@$id){
+  if(mysql_num_rows($result)==1){
       if($admin == 1){
         $session = array();
         $_SESSION['admin_user']=$username;
