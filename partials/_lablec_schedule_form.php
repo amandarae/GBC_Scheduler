@@ -99,7 +99,7 @@
       <div class='controls'> 
        <select name="day" id="day">
         <?php
-          $days = ("monday","tuesday","wednesday","thursday", "friday");
+          $days = array("monday","tuesday","wednesday","thursday", "friday");
           $count = count($days);
           for($i=0;$i<$count;$i++){
             if (isset($post)) {
