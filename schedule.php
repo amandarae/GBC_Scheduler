@@ -55,10 +55,8 @@ include('partials/_adminlock.php');
      <div id="response" style="color: red;"></div>
   <div class="form-center">
     <?php 
-<<<<<<< HEAD
-=======
       echo "query string: " . $_SERVER['QUERY_STRING']; 
->>>>>>> azure? _GET issues
+
       if($_SERVER['QUERY_STRING'] == 'event'){
         include('partials/_schedule_form.php'); 
 
