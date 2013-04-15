@@ -20,6 +20,6 @@
   <div class="control-group">
  <label class='control-label' for='pass'>Password</label> 
   <div class='controls'> 
-    <input type='text' id='pass' name='pass' value=''>
+    <input type='password' id='pass' name='pass' value=''>
   </div>
 </div>
