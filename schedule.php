@@ -90,7 +90,7 @@ include('partials/_adminlock.php');
       var e = $('#end').val().split(":");
       var as = $('#astart').val().split(":");
       var ae = $('#aend').val().split(":");
-      if(s[0] >  e[0] || e[0] - s[0] || as[0] >  ae[0] || ae[0] - as[0] > 2)
+      if(s[0] >  e[0] || e[0] - s[0] > 2|| as[0] >  ae[0] || ae[0] - as[0] > 2)
         errors += "A lab and or lecture must be blocked in successive 2 hr blocks<br>";
       if(errors != ""){
         $('#response').html(errors);
