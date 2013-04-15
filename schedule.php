@@ -58,25 +58,23 @@ include('partials/_adminlock.php');
       if(isset($_GET['event'])){
         include('partials/_schedule_form.php'); 
 
-        $frmbttm = <<<FORMEND
+        $frmbttm = '
           <a href="admin.php" class="btn cl ">Back</a>
           <input type="hidden" name="eID" id="eID" value=""/>
-          <input type='submit' class="delete-click btn btn-danger" id="eventDelete" name="eventDelete" value="Delete"/>
-          <input type='submit' class="btn btn-primary" id="saveEvent" value="Save changes"/>
+          <input type="submit" class="delete-click btn btn-danger" id="eventDelete" name="eventDelete" value="Delete"/>
+          <input type="submit" class="btn btn-primary" id="saveEvent" value="Save changes"/>
         </form>
 
-        <?php include('partials/_deleteModal.php') ?>
-        </div>
-FORMEND;
+        <?php include("partials/_deleteModal.php") ?>
+        </div>';
     echo $frmbttm;
     }
     else if(isset($_GET['add'])){
       include('partials/_lablec_schedule_form.php'); 
-      $frmbttm = <<<FORMEND
+      $frmbttm = '
          <a href="admin.php" class="btn cl ">Back</a>
           <input type="submit" class="btn btn-primary" id="addEvent" name="addEvent" value="Schedule"/>
-        </form>
-FORMEND;
+        </form>';
     echo $frmbttm;
     }
   ?>
