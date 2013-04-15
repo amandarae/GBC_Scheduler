@@ -222,7 +222,7 @@
       <div class='controls'> 
        <select name="aday" id="aday">
         <?php
-          $days = ["monday","tuesday","wednesday","thursday", "friday"];
+          $days = array("monday","tuesday","wednesday","thursday", "friday");
           $count = count($days);
           for($i=0;$i<$count;$i++){
             if (isset($post)) {
