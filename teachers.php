@@ -12,6 +12,11 @@ include('partials/_adminlock.php');
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootbox.min.js"></script>
+    <style>
+      .clear{
+        height: 50px;
+      }
+    </style>
      </head>
 <body>
 <div class="container">
@@ -33,7 +38,7 @@ include('partials/_adminlock.php');
   <?php include "partials/_search_table.php";  ?>
   
   <a href="add.php?teacher"><button class="pull-right btn btn-primary">Add A Record</button></a>
-
+  <div class="clear"></div>
   <?php 
     $result = select("user_t", "admin <> 1");
     $count=mysql_num_rows($result);
