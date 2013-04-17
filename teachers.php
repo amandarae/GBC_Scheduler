@@ -48,6 +48,7 @@ include('partials/_adminlock.php');
         }
       }
      ?>
+     <div id="response" style="color: red;"></div>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -102,8 +103,6 @@ include('partials/_adminlock.php');
       <a href="#" class="btn btn-primary" id="modalSave">Save changes</a>
     </div>
  </div>
-
-<div id="response" style="color: red;"></div>
 
   <script>
     $(".details-click").on("click", function(e) {

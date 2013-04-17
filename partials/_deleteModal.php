@@ -24,10 +24,15 @@
 	      data: dataObj,
 	      dataType: 'JSON',
 	      success: function(response){
-	      	if($.inArray('schedule.php?event='+clickedID+'#', url) > -1 || $.inArray('schedule.php?event='+clickedID, url) > -1)
-	      		window.location.replace("admin.php");
-	      	else
-    			window.location.reload();
+	      	if(response != true){
+	      		$('#response').html(response);
+	      	}
+	      	else{
+		      	if($.inArray('schedule.php?event='+clickedID+'#', url) > -1 || $.inArray('schedule.php?event='+clickedID, url) > -1)
+		      		window.location.replace("admin.php");
+		      	else
+	    			window.location.reload();
+	    	}
 	      },
 	      error: function(XMLHttpRequest, textStatus, errorThrown){ $("#response").html(errorThrown);}
 	      });

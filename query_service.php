@@ -34,7 +34,15 @@
 	//DELETE
 	if(isset($_POST['deleteUser']))
 	{
+		$errors = array();
 		$uID = $_POST['deleteUser'];
+		$sql="SELECT schedule_id FROM schedule_t WHERE teacher_id=$uID";
+		$result=mysql_query($sql);
+		if(mysql_num_rows($result) >=1){
+			array_push($errors,"This teacher has been found in the schedule. Please reassign all classes that this teacher is scheduled for before deletion.");
+			sendResponse($errors);
+			exit;
+		}
 		$sql="DELETE FROM user_t WHERE employee_id= " . $uID;
 	    $result=mysql_query($sql);
 	    sendResponse($result);
