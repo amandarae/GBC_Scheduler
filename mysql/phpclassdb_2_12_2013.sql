@@ -144,6 +144,31 @@ CREATE TABLE `schedule_t` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Constraints for SCHEDULE_T
+--
+ALTER TABLE `schedule_t`
+    ADD FOREIGN KEY
+    (course_crn) 
+    REFERENCES `course_t` (course_crn);
+ALTER TABLE `schedule_t`
+    ADD FOREIGN KEY
+    (room_id) 
+    REFERENCES `room_t` (room_id);
+ALTER TABLE `schedule_t`
+    ADD FOREIGN KEY
+    (teacher_id) 
+    REFERENCES `user_t` (employee_id);
+ALTER TABLE `schedule_t`
+    ADD FOREIGN KEY
+    (section_id) 
+    REFERENCES `section_t` (section_id);
+ALTER TABLE `schedule_t`
+    ADD FOREIGN KEY
+    (semester_id) 
+    REFERENCES `semester_t` (semester_id);
+
+
+--
 -- Dumping data for table `schedule_t`
 --
 
