@@ -37,7 +37,7 @@ include('partials/_adminlock.php');
 
   <?php include "partials/_search_table.php";  ?>
   
-  <a href="schedule.php"><button class="pull-right btn btn-primary">Schedule An Event</button></a>
+  <a href="schedule.php?add"><button class="pull-right btn btn-primary">Schedule An Event</button></a>
   <div class="clear"></div>
   <?php 
     $result = select("schedule_t","");
