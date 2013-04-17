@@ -213,7 +213,15 @@
 	//DELETE
 	if(isset($_POST['deleteCourse']))
 	{
+		$errors = array();
 		$cID = $_POST['deleteCourse'];
+		$sql="SELECT schedule_id FROM schedule_t WHERE course_crn=$cID";
+		$result=mysql_query($sql);
+		if(mysql_num_rows($result) >=1){
+			array_push($errors,"This course has been found in the schedule. Please reassign all classes that this section is scheduled for before deletion.");
+			sendResponse($errors);
+			exit;
+		}
 		$sql="DELETE FROM course_t WHERE course_crn='$cID'";
 	    $result=mysql_query($sql);
 	    sendResponse($result);
