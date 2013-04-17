@@ -126,7 +126,15 @@
 	//DELETE
 	if(isset($_POST['deleteSection']))
 	{
+		$errors = array();
 		$sID = $_POST['deleteSection'];
+		$sql="SELECT schedule_id FROM schedule_t WHERE section_id=$sID";
+		$result=mysql_query($sql);
+		if(mysql_num_rows($result) >=1){
+			array_push($errors,"This section has been found in the schedule. Please reassign all classes that this section is scheduled for before deletion.");
+			sendResponse($errors);
+			exit;
+		}
 		$sql="DELETE FROM section_t WHERE section_id= " . $sID;
 	    $result=mysql_query($sql);
 	    sendResponse($result);

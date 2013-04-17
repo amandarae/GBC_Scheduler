@@ -12,6 +12,11 @@ include('partials/_adminlock.php');
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootbox.min.js"></script>
+    <style>
+      .clear{
+        height: 50px;
+      }
+    </style>
      </head>
 <body>
 <div class="container">
@@ -33,21 +38,24 @@ include('partials/_adminlock.php');
   <?php include "partials/_search_table.php";  ?>
   
   <a href="add.php?section"><button class="pull-right btn btn-primary">Add A Record</button></a>
-
-  <?php 
-    $result = select("section_t","");
-    $count=mysql_num_rows($result);
-  ?>
-   <?php 
-      if(isset($_SESSION['errors'])){
-        $errors = array($_SESSION['errors']);
-        unset($_SESSION['errors']);
-        foreach($errors as $e){
-          foreach($e as $r)
-            echo "<span style='color:red;'> $r <br></span>";
+  <div class="clear"></div>
+    <?php 
+      $result = select("section_t","");
+      $count=mysql_num_rows($result);
+    ?>
+     <?php 
+        if(isset($_SESSION['errors'])){
+          $errors = array($_SESSION['errors']);
+          unset($_SESSION['errors']);
+          foreach($errors as $e){
+            foreach($e as $r)
+              echo "<span style='color:red;'> $r <br></span>";
+          }
         }
-      }
-     ?>
+       ?>
+
+  <div id="response" style="color: red;"></div>
+
   <table class="table table-hover">
     <thead>
       <tr>
@@ -102,8 +110,6 @@ include('partials/_adminlock.php');
       <a href="#" class="btn btn-primary" id="modalSave">Save changes</a>
     </div>
  </div>
-
-<div id="response" style="color: red;"></div>
 
   <script>
     $(".details-click").on("click", function(e) {
