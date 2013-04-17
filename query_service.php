@@ -218,7 +218,7 @@
 		$sql="SELECT schedule_id FROM schedule_t WHERE course_crn=$cID";
 		$result=mysql_query($sql);
 		if(mysql_num_rows($result) >=1){
-			array_push($errors,"This course has been found in the schedule. Please reassign all classes that this section is scheduled for before deletion.");
+			array_push($errors,"This course has been found in the schedule. Please reassign all classes that this course is scheduled for before deletion.");
 			sendResponse($errors);
 			exit;
 		}
@@ -319,7 +319,7 @@
 		$sql="SELECT schedule_id FROM schedule_t WHERE room_id=$rID";
 		$result=mysql_query($sql);
 		if(mysql_num_rows($result) >=1){
-			array_push($errors,"This room has been found in the schedule. Please reassign all classes that this section is scheduled for before deletion.");
+			array_push($errors,"This room has been found in the schedule. Please reassign all classes that this room is scheduled for before deletion.");
 			sendResponse($errors);
 			exit;
 		}
@@ -403,7 +403,15 @@
 	//DELETE
 	if(isset($_POST['deleteSemester']))
 	{
+		$errors = array();
 		$sID = $_POST['deleteSemester'];
+		$sql="SELECT schedule_id FROM schedule_t WHERE semester_id=$sID";
+		$result=mysql_query($sql);
+		if(mysql_num_rows($result) >=1){
+			array_push($errors,"There are classes in the schedule associated with this semseter. Please reassign all classes before deletion.");
+			sendResponse($errors);
+			exit;
+		}
 		$sql="DELETE FROM semester_t WHERE semester_id=$sID";
 	    $result=mysql_query($sql);
 	    sendResponse($result);

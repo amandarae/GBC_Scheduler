@@ -14,6 +14,11 @@ include('partials/_adminlock.php');
     <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootbox.min.js"></script>
+    <style>
+      .clear{
+        height: 50px;
+      }
+    </style>
      </head>
 <body>
 <div class="container">
@@ -33,7 +38,7 @@ include('partials/_adminlock.php');
   </ul>
 
   <?php include "partials/_search_table.php";  ?>
-
+  <div class="clear"></div>
   <a href="add.php?semester"><button class="pull-right btn btn-primary">Add A Semester</button></a>
 
   <?php 
@@ -50,6 +55,8 @@ include('partials/_adminlock.php');
         }
       }
      ?>
+
+  <div id="response" style="color: red;"></div>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -107,8 +114,6 @@ include('partials/_adminlock.php');
       <a href="#" class="btn btn-primary" id="modalSave">Save changes</a>
     </div>
  </div>
-
-<div id="response" style="color: red;"></div>
 
   <script>
     $(".details-click").on("click", function(e) {
