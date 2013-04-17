@@ -314,7 +314,15 @@
 	//DELETE
 	if(isset($_POST['deleteRoom']))
 	{
+		$errors = array();
 		$rID = $_POST['deleteRoom'];
+		$sql="SELECT schedule_id FROM schedule_t WHERE room_id=$rID";
+		$result=mysql_query($sql);
+		if(mysql_num_rows($result) >=1){
+			array_push($errors,"This room has been found in the schedule. Please reassign all classes that this section is scheduled for before deletion.");
+			sendResponse($errors);
+			exit;
+		}
 		$sql="DELETE FROM room_t WHERE room_id=$rID";
 	    $result=mysql_query($sql);
 	    sendResponse($result);
