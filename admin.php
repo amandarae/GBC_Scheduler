@@ -43,8 +43,10 @@ include "partials/_header.php";
 </ul>
 
 <a href=javascript:printDiv('calendar')><i class="icon-print pull-left"></i>
-<a href="schedule.php?add"><button class="pull-right btn btn-primary schedule">Schedule An Item</button></a>
+<a href="schedule.php?add"><button class="pull-right btn btn-primary schedule">Schedule An Item</button></a><br>
+
 <div style="clear:both;"></div>
+<a href="schedule_table.php" class="pull-left">View Schedule Table</a>
 <div id="response" style="color: red;"></div>
 
 <div id="calendar"></div>
