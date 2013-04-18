@@ -31,7 +31,7 @@ include('partials/_dbinfo.inc.php');
   include "partials/_header.php";
 ?>
 
-<a href=javascript:printDiv('calendar')><i class="icon-print pull-left"></i>
+<a href=javascript:printDiv('calendar')><i class="icon-print pull-left"></i></a>
 
 <div id="response" style="color: red;"></div>
 
