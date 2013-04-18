@@ -51,6 +51,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
   if(mysql_num_rows($result)==1){
     while ($row = mysql_fetch_assoc($result)) {
       $admin = $row['admin'];
+      $id = $row['employee_id'];
       if($admin == 1){
         $session = array();
         $_SESSION['admin_user']=$username;
