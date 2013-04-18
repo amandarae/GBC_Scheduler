@@ -153,7 +153,7 @@ include('partials/_adminlock.php');
           data: dataObj,
           dataType: 'JSON',
           success: function(response){
-            window.location.reload();
+              window.location.reload();
           },
           error: function(XMLHttpRequest, textStatus, errorThrown){$("#response").html("error: " + errorThrown);}
         });

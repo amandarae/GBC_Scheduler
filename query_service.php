@@ -431,17 +431,18 @@
 	   		$result = mysql_query($sql);
 			if (!$result) 
     			die('Invalid query: ' . mysql_error());
-		   	header("location: semesters.php");
-	   	}
-	   	else{
+    		else{
 	   		session_start();
 	   		 $_SESSION['errors'] = $errors;
 	   		 header("location: add.php?semester");
+	   		 exit;
+	   		}
+		   	header("location: semesters.php");
 	   	}
 		if(isset($_POST['editSemester'])){
 			if(empty($errors)){
 				$sID = $_POST['editSemester'];
-				$sql="UPDATE semester_t SET year='$year', quarter='$quarter', startDate='$start', endDate='$end' WHERE semeseter_id=$sID";
+				$sql="UPDATE semester_t SET year='$year', quarter='$quarter', startDate='$start', endDate='$end' WHERE semester_id=$sID";
 		   		$result = mysql_query($sql);
 		   		if (!$result) 
 	    			sendResponse( mysql_error());
